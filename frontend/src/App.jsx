@@ -110,39 +110,3 @@ const App = () => {
 
 export default App;
 
-
-
-// import React from "react";
-// import Navbar from "./components/Navbar/Navbar";
-// import Sidebar from "./components/Sidebar/Sidebar";
-// import { Route, Routes } from "react-router-dom";
-// import Display from "./pages/Display/Display";
-// import Orders from "./pages/Orders/Orders";
-// import Add from "./pages/Add/Add";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import Update from "./pages/Update/Update";
-// import Home from "./pages/Home/Home";
-
-// const App = () => {
-//   const url = "http://localhost:4000";
-//   return (
-//     <div>
-//       <ToastContainer />
-//       <Navbar />
-//       <hr />
-//       <div className="app-content">
-//         <Sidebar />
-//         <Routes>
-//           <Route path="/" element={<Home url={url} />} />
-//           <Route path="/add" element={<Add url={url} />} />
-//           <Route path="/update" element={<Update url={url} />} />
-//           <Route path="/display" element={<Display url={url} />} />
-//           <Route path="/orders" element={<Orders url={url} />} />
-//         </Routes>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default App;

@@ -3,16 +3,25 @@ import "./UserNavbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import SearchModal from "../SearchModal/SearchModal"; // ⬅️ Import added
 
 const UserNavbar = ({ setShowLogin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menu, setMenu] = useState("menu");
-  const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+  const [showSearch, setShowSearch] = useState(false); // ⬅️ State for modal
+  const {
+    getTotalCartAmount,
+    token,
+    setToken,
+    setUserRole
+  } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    localStorage.removeItem("role");
+    setToken(null);
+    setUserRole(null);
     navigate("/");
   };
 
@@ -24,7 +33,11 @@ const UserNavbar = ({ setShowLogin }) => {
   return (
     <div className="navbar">
       <Link to="/">
-        <img src={assets.logo} alt="" onClick={() => setMenuOpen(!menuOpen)} />
+        <img
+          src={assets.logo}
+          alt="CraveKart"
+          onClick={() => setMenuOpen(!menuOpen)}
+        />
       </Link>
       <ul className={`navbar-menu ${menuOpen ? "open" : ""}`}>
         <Link
@@ -65,32 +78,43 @@ const UserNavbar = ({ setShowLogin }) => {
       </ul>
 
       <div className="navbar-right">
-        <img src={assets.search_icon} alt="" />
+        <img
+          src={assets.search_icon}
+          alt="Search"
+          className="search-trigger"
+          onClick={() => setShowSearch(true)} // ⬅️ Show modal on click
+        />
+
         <div className="navbar-search-icon">
           <Link to="/cart">
-            <img src={assets.basket_icon} alt="" />
+            <img src={assets.basket_icon} alt="Cart" />
           </Link>
           <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>
+
         {!token ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
           <div className="navbar-profile">
-            <img src={assets.profile_icon} alt="" />
+            <img src={assets.profile_icon} alt="Profile" />
             <ul className="navbar-profile-dropdown">
-              <li onClick={()=>navigate('/myorders')}>
-                <img src={assets.bag_icon} alt="" />
+              <li onClick={() => navigate("/myorders")}>
+                <img src={assets.bag_icon} alt="Orders" />
                 <p>Orders</p>
               </li>
               <hr />
               <li onClick={logout}>
-                <img src={assets.logout_icon} alt="" />
+                <img src={assets.logout_icon} alt="Logout" />
                 <p>Logout</p>
               </li>
             </ul>
           </div>
         )}
       </div>
+
+      {showSearch && (
+        <SearchModal onClose={() => setShowSearch(false)} /> // ⬅️ Modal added
+      )}
     </div>
   );
 };

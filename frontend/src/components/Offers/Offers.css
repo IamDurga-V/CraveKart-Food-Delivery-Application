@@ -24,10 +24,11 @@
   margin-top: 30px;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 100px;
+  gap: 150px;
 }
 
 .offers-image img {
+  margin-left: 50px;
   width: 450px;
   max-width: 100%;
   border-radius: 12px;

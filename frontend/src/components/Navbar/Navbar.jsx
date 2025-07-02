@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { StoreContext } from "../../context/StoreContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { setToken, setUserRole } = useContext(StoreContext);
 
   const handleLogout = () => {
-    // Optionally add confirmation
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (!confirmLogout) return;
 
-    // Clear token or user info
-    localStorage.removeItem("token"); // Or your specific key
+    // Clear context and localStorage
+    setToken(null);
+    setUserRole(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
 
-    // Navigate to login
+    // Redirect to home
     navigate("/");
   };
 
   return (
     <div className="navbar">
-      <img src={assets.logo} alt="Logo" className="logo" />
+      <img onClick={()=>navigate("/admin")} src={assets.admin_logo} alt="Logo" className="logo" />
       <img
         src={assets.profile_image}
         alt="Profile"
