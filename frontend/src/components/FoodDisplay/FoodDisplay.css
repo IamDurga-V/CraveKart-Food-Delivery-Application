@@ -1,0 +1,71 @@
+.food-display {
+  margin-top: 30px;
+}
+.food-display h2 {
+  font-size: max(2vw, 24px);
+  font-weight: 600;
+}
+.food-display-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  margin-top: 30px;
+  gap: 30px;
+}
+.price-filter {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+}
+.price-filter input[type="range"] {
+  width: 200px;
+}
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.filter-bar select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline-color: #a83232;
+}
+.food-display-search {
+  margin: 20px 0;
+  text-align: right;
+}
+
+.food-display-search input {
+  padding: 10px 16px;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.food-display-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Handles mobile responsiveness */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.food-display-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.food-display-header input {
+  padding: 10px 16px;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}

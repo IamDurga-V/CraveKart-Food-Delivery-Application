@@ -1,0 +1,45 @@
+.display-table-format {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr 0.5fr; /* Added 2 columns: Edit + Delete */
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+}
+
+.display-table-format.title {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.display-table-format img {
+  width: 50px;
+  border-radius: 4px;
+}
+
+/* Optional hover effect for actions */
+.cursor {
+  cursor: pointer;
+}
+
+/* Colors for Edit and Delete icons */
+.edit-icon {
+  color: #3498db;
+}
+
+.delete-icon {
+  color: #e74c3c;
+}
+
+@media (max-width: 600px) {
+  .display-table-format {
+    grid-template-columns: 1fr 2fr 1fr; /* Simplified for mobile view */
+    gap: 15px;
+    font-size: 12px;
+  }
+
+  .display-table-format.title {
+    display: none;
+  }
+}

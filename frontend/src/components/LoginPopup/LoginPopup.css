@@ -1,0 +1,213 @@
+.login-popup {
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+}
+
+.login-popup-container {
+  display: flex;
+  width: clamp(600px, 60vw, 800px);
+  height: clamp(500px, 60vh, 500px);
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-popup-left {
+  flex: 1;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.illustration-container {
+  text-align: center;
+  color: #333;
+}
+
+.illustration {
+  width: 80%;
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+.illustration-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #a83232;
+}
+
+.illustration-container p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.login-popup-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-color: white;
+}
+
+.login-popup-form {
+  width: 100%;
+  max-width: 330px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.login-popup-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+}
+
+.login-popup-title h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.close-icon {
+  width: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.close-icon:hover {
+  opacity: 0.7;
+}
+
+.login-popup-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-popup-inputs input,
+.login-popup-inputs select {
+  outline: none;
+  border: 1px solid #c9c9c9;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-popup-inputs select.role-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23666" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+.login-popup-inputs input:focus,
+.login-popup-inputs select:focus {
+  border-color: #a83232;
+  box-shadow: 0 0 5px rgba(168, 50, 50, 0.3);
+}
+
+.login-popup-form button {
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  color: white;
+  background-color: #a83232;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-popup-form button:hover {
+  background-color: #8b2a2a;
+}
+
+.login-popup-condition {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.login-popup-condition input {
+  margin-top: 5px;
+}
+
+.login-popup-form p {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+.login-popup-form p span {
+  color: #a83232;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.login-popup-form p span:hover {
+  color: #8b2a2a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .login-popup-container {
+    flex-direction: column;
+    width: 90vw;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .login-popup-left {
+    padding: 20px;
+    display: none; /* Hide illustration on small screens */
+  }
+
+  .login-popup-right {
+    padding: 20px;
+  }
+
+  .login-popup-form {
+    max-width: 100%;
+  }
+
+  .login-popup-inputs input,
+  .login-popup-inputs select {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
