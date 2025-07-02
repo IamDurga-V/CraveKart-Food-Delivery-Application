@@ -11,7 +11,8 @@
     const placeOrder = async (req, res) => {
       let newOrder;
       try {
-        const { userId, items, amount, address } = req.body;
+        const userId = req.user.id;
+        const {items, amount, address } = req.body;
         console.log("placeOrder: Request received for userId:", userId, "amount:", amount);
 
         // 1. Create backend order in MongoDB
@@ -125,7 +126,7 @@
     
 const userOrders = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.user.id;
     console.log("userOrders: Fetching orders for userId:", userId); // Added log
     // Fetch orders for the user where 'payment' field is true
     const orders = await orderModel.find({ userId, payment: true }).sort({ createdAt: -1 });

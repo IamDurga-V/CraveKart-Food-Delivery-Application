@@ -30,7 +30,6 @@ const Navbar = () => {
         alt="Profile"
         className="profile"
         onClick={handleLogout}
-        style={{ cursor: "pointer" }}
         title="Click to logout"
       />
     </div>

@@ -9,7 +9,10 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || ""); // ✅ Added userId
   const url = "http://localhost:4000";
+
+  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -19,7 +22,7 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/add`, { itemId }, { headers: { token } });
+        await axios.post(`${url}/api/cart/add`, { itemId }, { headers: authHeader });
       } catch (error) {
         console.error("Add to cart error:", error);
       }
@@ -39,7 +42,7 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/remove`, { itemId }, { headers: { token } });
+        await axios.post(`${url}/api/cart/remove`, { itemId }, { headers: authHeader });
       } catch (error) {
         console.error("Remove from cart error:", error);
       }
@@ -68,9 +71,9 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  const localCartData = async (token) => {
+  const localCartData = async () => {
     try {
-      const response = await axios.post(`${url}/api/cart/get`, {}, { headers: { token } });
+      const response = await axios.post(`${url}/api/cart/get`, {}, { headers: authHeader });
       setCartItems(response?.data?.cartData || {});
     } catch (error) {
       console.error("Failed to load cart data:", error);
@@ -86,19 +89,30 @@ const StoreContextProvider = (props) => {
         try {
           const decoded = jwtDecode(storedToken);
           const role = decoded.role || "User";
+          const id = decoded.id || decoded.userId || decoded._id; // ✅ Adjust based on your JWT
+          
           setUserRole(role);
+          setUserId(id);
+          
           localStorage.setItem("role", role);
+          localStorage.setItem("userId", id);
+
           console.log("StoreContext set userRole:", role);
-          await localCartData(storedToken);
+          console.log("StoreContext set userId:", id);
+
+          await localCartData();
         } catch (error) {
           console.error("Token decoding error:", error);
           setToken("");
           setUserRole("User");
+          setUserId("");
           localStorage.removeItem("token");
           localStorage.removeItem("role");
+          localStorage.removeItem("userId");
         }
       } else {
         setUserRole("User");
+        setUserId("");
         localStorage.setItem("role", "User");
       }
       await fetchFoodDisplay();
@@ -118,6 +132,8 @@ const StoreContextProvider = (props) => {
     setToken,
     userRole,
     setUserRole,
+    userId, // ✅ Included userId
+    setUserId,
   };
 
   return (

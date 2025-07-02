@@ -1,14 +1,54 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
+import axios from "axios";
+import { StoreContext } from "../../context/StoreContext";
 
-const Home = ({ url }) => {
-  const stats = {
-    totalOrders: 150,
-    totalIncome: 75000,
-    totalUsers: 200,
-  };
+const Home = () => {
+  const { token, url } = useContext(StoreContext);
+
+  const [stats, setStats] = useState({
+    totalOrders: 0,
+    totalIncome: 0,
+    totalUsers: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!token) {
+        console.warn("Token not yet set, skipping fetchStats.");
+        return;
+      }
+
+      try {
+        console.log("Sending token to backend:", token);
+
+        const res = await axios.get(`${url}/api/admin/stats`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.data.success) {
+          setStats({
+            totalOrders: res.data.totalOrders,
+            totalIncome: res.data.totalIncome,
+            totalUsers: res.data.totalUsers,
+          });
+        } else {
+          console.error("Stats fetch failed:", res.data.message);
+        }
+      } catch (error) {
+        console.error("Failed to fetch stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, [url, token]);
 
   return (
     <div className="admin-home">
@@ -17,35 +57,41 @@ const Home = ({ url }) => {
           <h1>Welcome, Admin!</h1>
           <div className="underline"></div>
         </div>
-        <div className="metrics-grid">
-          <div className="metric-card">
-            <img
-              src={assets.order_icon}
-              alt="Orders Icon"
-              className="metric-icon"
-            />
-            <h3>Orders</h3>
-            <p>{stats.totalOrders}</p>
+
+        {loading ? (
+          <p className="loading-message">Loading stats...</p>
+        ) : (
+          <div className="metrics-grid">
+            <div className="metric-card">
+              <img
+                src={assets.order_icon}
+                alt="Orders Icon"
+                className="metric-icon"
+              />
+              <h3>Orders</h3>
+              <p>{stats.totalOrders}</p>
+            </div>
+            <div className="metric-card">
+              <img
+                src={assets.revenue_icon}
+                alt="Revenue Icon"
+                className="metric-icon"
+              />
+              <h3>Revenue</h3>
+              <p>₹{stats.totalIncome.toLocaleString()}</p>
+            </div>
+            <div className="metric-card">
+              <img
+                src={assets.users_icon}
+                alt="Users Icon"
+                className="metric-icon"
+              />
+              <h3>Users</h3>
+              <p>{stats.totalUsers}</p>
+            </div>
           </div>
-          <div className="metric-card">
-            <img
-              src={assets.revenue_icon}
-              alt="Revenue Icon"
-              className="metric-icon"
-            />
-            <h3>Revenue</h3>
-            <p>₹{stats.totalIncome.toLocaleString()}</p>
-          </div>
-          <div className="metric-card">
-            <img
-              src={assets.users_icon}
-              alt="Users Icon"
-              className="metric-icon"
-            />
-            <h3>Users</h3>
-            <p>{stats.totalUsers}</p>
-          </div>
-        </div>
+        )}
+
         <div className="quick-actions">
           <h2>Quick Actions</h2>
           <div className="action-buttons">
