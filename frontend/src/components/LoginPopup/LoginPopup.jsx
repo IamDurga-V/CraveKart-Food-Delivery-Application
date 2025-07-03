@@ -3,87 +3,66 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Import jwtDecode
-
+import { jwtDecode } from "jwt-decode";
 const LoginPopup = ({ setShowLogin }) => {
-  const { url, setToken, setUserRole, setUserId } = useContext(StoreContext); // Destructure setUserId
-
+  const { url, setToken, setUserRole, setUserId } = useContext(StoreContext);
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "User", // Default role
+    role: "User",
   });
-
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setData((data) => ({ ...data, [name]: value }));
   };
-
   const onLogin = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-
+    event.preventDefault();
     let newUrl = url;
     if (currState === "Login") {
       newUrl += "/api/user/login";
     } else {
       newUrl += "/api/user/register";
     }
-
     try {
       const response = await axios.post(newUrl, data);
-
       if (response.data.success) {
         const receivedToken = response.data.token;
-        setToken(receivedToken); // Update token state in context
-
-        // Store token in localStorage
+        setToken(receivedToken);
         localStorage.setItem("token", receivedToken);
-
-        // --- Crucial Fix: Decode token and set userRole/userId immediately ---
         try {
           const decoded = jwtDecode(receivedToken);
-          const role = decoded.role || "User"; // Get role from decoded token, default to 'User'
-          const id = decoded.id || decoded.userId || decoded._id; // Get ID from decoded token
-
-          setUserRole(role); // Update userRole state in context
-          setUserId(id);     // Update userId state in context
-
-          // Store role and userId in localStorage for persistence across refreshes
+          const role = decoded.role || "User";
+          const id = decoded.id || decoded.userId || decoded._id;
+          setUserRole(role);
+          setUserId(id);
           localStorage.setItem("role", role);
           localStorage.setItem("userId", id);
-
-          console.log("LoginPopup: Successfully set userRole:", role, "userId:", id);
-
         } catch (decodeError) {
-          console.error("LoginPopup: Token decoding error after successful auth:", decodeError);
-          // If token decoding fails (e.g., malformed token), treat as unauthenticated
           setToken("");
           setUserRole("User");
           setUserId("");
           localStorage.removeItem("token");
           localStorage.removeItem("role");
           localStorage.removeItem("userId");
-          alert("Authentication successful but token could not be processed. Please try again.");
+          alert(
+            "Authentication successful but token could not be processed. Please try again.",
+          );
         }
-        // --- End Crucial Fix ---
-
-        setShowLogin(false); // Close the login popup
+        setShowLogin(false);
       } else {
-        alert(response.data.message); // Show error message from backend
+        alert(response.data.message);
       }
     } catch (error) {
       alert("An error occurred during authentication. Please try again.");
       console.error("Authentication Error:", error);
     }
   };
-
   return (
     <div className="login-popup">
       <div className="login-popup-container">
-        {/* Left Side - Illustration */}
         <div className="login-popup-left">
           <div className="illustration-container">
             <img
@@ -95,7 +74,6 @@ const LoginPopup = ({ setShowLogin }) => {
             <p>Sign In or Create an account to continue your journey!</p>
           </div>
         </div>
-        {/* Right Side - Form */}
         <div className="login-popup-right">
           <form onSubmit={onLogin} className="login-popup-form">
             <div className="login-popup-title">

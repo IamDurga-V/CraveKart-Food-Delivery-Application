@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const offerSchema = new mongoose.Schema(
   {
     code: {
@@ -37,9 +36,8 @@ const offerSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-const offerModel = mongoose.models.Offer || mongoose.model("Offer", offerSchema);
-
+const offerModel =
+  mongoose.models.Offer || mongoose.model("Offer", offerSchema);
 export default offerModel;

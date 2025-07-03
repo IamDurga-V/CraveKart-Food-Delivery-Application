@@ -7,39 +7,32 @@ import "react-toastify/dist/ReactToastify.css";
 const ManageOffer = () => {
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Fetch all offers from backend
   const fetchOffers = async () => {
     setLoading(true);
     try {
       const res = await axios.get("http://localhost:4000/api/offer/all");
-      setOffers(res.data || []); // Fallback to empty array if no data
+      setOffers(res.data || []);
     } catch (err) {
-      toast.error("Error fetching offers", { position: "top-center" });
+      toast.error("Error fetching offers", { position: "top-right" });
     }
     setLoading(false);
   };
-
-  // Handle offer deletion
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this offer?")) return;
     try {
       await axios.delete(`http://localhost:4000/api/offer/${id}`);
-      toast.success("Offer deleted successfully", { position: "top-center" });
-      fetchOffers(); // Refresh the list after deletion
+      toast.success("Offer deleted successfully", { position: "top-right" });
+      fetchOffers();
     } catch (err) {
-      toast.error("Error deleting offer", { position: "top-center" });
+      toast.error("Error deleting offer", { position: "top-right" });
     }
   };
-
   useEffect(() => {
     fetchOffers();
   }, []);
-
   return (
     <div className="manage-offers-container">
       <h2>Manage Offers</h2>
-
       {loading ? (
         <p>Loading offers...</p>
       ) : offers.length === 0 ? (
@@ -56,7 +49,6 @@ const ManageOffer = () => {
             <div>Status</div>
             <div>Action</div>
           </div>
-
           {offers.map((offer) => (
             <div className="display-table-format" key={offer._id}>
               <div>{offer.code}</div>
@@ -83,7 +75,6 @@ const ManageOffer = () => {
           ))}
         </>
       )}
-
       <ToastContainer />
     </div>
   );

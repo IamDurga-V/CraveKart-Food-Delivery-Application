@@ -1,6 +1,6 @@
 .display-table-format {
   display: grid;
-  grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr 0.5fr; /* Added 2 columns: Edit + Delete */
+  grid-template-columns: 0.5fr 3fr 2fr 2fr 0.5fr 0.5fr;
   align-items: center;
   gap: 10px;
   padding: 12px 15px;
@@ -18,12 +18,10 @@
   border-radius: 4px;
 }
 
-/* Optional hover effect for actions */
 .cursor {
   cursor: pointer;
 }
 
-/* Colors for Edit and Delete icons */
 .edit-icon {
   color: #3498db;
 }
@@ -34,9 +32,43 @@
 
 @media (max-width: 600px) {
   .display-table-format {
-    grid-template-columns: 1fr 2fr 1fr; /* Simplified for mobile view */
-    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "image name"
+      "price qty"
+      "edit delete";
     font-size: 12px;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .display-table-format img {
+    grid-area: image;
+    width: 40px;
+  }
+
+  .display-table-format p:nth-child(2) {
+    grid-area: name;
+  }
+
+  .display-table-format p:nth-child(3) {
+    grid-area: price;
+  }
+
+  .display-table-format p:nth-child(4) {
+    grid-area: qty;
+  }
+
+  .display-table-format .edit-icon {
+    grid-area: edit;
+    font-size: 16px;
+    justify-self: start;
+  }
+
+  .display-table-format .delete-icon {
+    grid-area: delete;
+    font-size: 16px;
+    justify-self: end;
   }
 
   .display-table-format.title {

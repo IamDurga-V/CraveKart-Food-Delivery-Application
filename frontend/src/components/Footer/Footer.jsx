@@ -9,12 +9,9 @@ const Footer = () => {
     const name = formData.get("name");
     const email = formData.get("email");
     const message = formData.get("message");
-
-    // Replace this alert with your backend API call
     alert(`Thank you, ${name}! We'll get back to you soon.`);
     e.target.reset();
   };
-
   return (
     <div className="footer" id="footer">
       <div className="footer-content">

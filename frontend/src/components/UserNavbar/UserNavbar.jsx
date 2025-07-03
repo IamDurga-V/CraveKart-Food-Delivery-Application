@@ -3,41 +3,28 @@ import "./UserNavbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
-import SearchModal from "../SearchModal/SearchModal"; // Make sure this import is correct
+import SearchModal from "../SearchModal/SearchModal";
 
 const UserNavbar = ({ setShowLogin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menu, setMenu] = useState("menu");
-  const [showSearch, setShowSearch] = useState(false); // State for modal
-  const {
-    getTotalCartAmount,
-    token,
-    setToken,
-    setUserRole,
-    setUserId // <<< Added setUserId here
-  } = useContext(StoreContext);
+  const [showSearch, setShowSearch] = useState(false);
+  const { getTotalCartAmount, token, setToken, setUserRole, setUserId } =
+    useContext(StoreContext);
   const navigate = useNavigate();
-
   const logout = () => {
-    // Clear localStorage items
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    localStorage.removeItem("userId"); // <<< Clear userId from localStorage
-
-    // Clear context states
-    setToken("");       // Set token to empty string
-    setUserRole("User"); // Explicitly set role to "User"
-    setUserId("");      // Clear userId
-
-    // Redirect to home page
+    localStorage.removeItem("userId");
+    setToken("");
+    setUserRole("User");
+    setUserId("");
     navigate("/");
   };
-
   const handleMenuClick = (selected) => {
     setMenu(selected);
     setMenuOpen(false);
   };
-
   return (
     <div className="navbar">
       <Link to="/">
@@ -84,7 +71,6 @@ const UserNavbar = ({ setShowLogin }) => {
           Contact Us
         </a>
       </ul>
-
       <div className="navbar-right">
         <img
           src={assets.search_icon}
@@ -92,7 +78,6 @@ const UserNavbar = ({ setShowLogin }) => {
           className="search-trigger"
           onClick={() => setShowSearch(true)}
         />
-
         <div className="navbar-search-icon">
           <Link to="/cart">
             <img src={assets.basket_icon} alt="Cart" />
@@ -119,10 +104,7 @@ const UserNavbar = ({ setShowLogin }) => {
           </div>
         )}
       </div>
-
-      {showSearch && (
-        <SearchModal onClose={() => setShowSearch(false)} />
-      )}
+      {showSearch && <SearchModal onClose={() => setShowSearch(false)} />}
     </div>
   );
 };

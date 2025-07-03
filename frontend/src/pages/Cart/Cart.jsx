@@ -19,27 +19,21 @@ const Cart = () => {
     setDiscountAmount,
     clearPromo,
   } = useContext(StoreContext);
-
   const navigate = useNavigate();
-
   const [promoCodeInput, setPromoCodeInput] = useState("");
   const [promoMessage, setPromoMessage] = useState("");
   const [applying, setApplying] = useState(false);
-
   const handleApplyPromo = async () => {
     if (!promoCodeInput.trim()) {
       setPromoMessage("Please enter a promo code.");
       return;
     }
-
     setApplying(true);
     setPromoMessage("");
-
     try {
       const subtotal = getTotalCartAmount();
       const deliveryFee = subtotal === 0 ? 0 : 200;
       const orderAmount = subtotal + deliveryFee;
-
       const response = await axios.post(
         `${url}/api/offer/validate`,
         {
@@ -51,14 +45,12 @@ const Cart = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.data.success) {
-        // Assuming backend sends discountAmount and promo object
         const promo = response.data.promo || { code: promoCodeInput.trim() };
         const discount = response.data.discountAmount || 0;
-
         setAppliedPromo(promo);
         setDiscountAmount(discount);
         setPromoMessage(`Promo applied! You saved ₹${discount}`);
@@ -71,7 +63,7 @@ const Cart = () => {
       setAppliedPromo(null);
       setDiscountAmount(0);
       setPromoMessage(
-        error.response?.data?.message || "Failed to apply promo code."
+        error.response?.data?.message || "Failed to apply promo code.",
       );
     }
 
@@ -88,7 +80,6 @@ const Cart = () => {
   const deliveryFee = subtotal === 0 ? 0 : 200;
   const totalBeforeDiscount = subtotal + deliveryFee;
   const totalAfterDiscount = Math.max(totalBeforeDiscount - discountAmount, 0);
-
   return (
     <div className="cart">
       <div className="cart-items">
@@ -112,10 +103,7 @@ const Cart = () => {
                   <p>₹{item.price}</p>
                   <p>{cartItems[item._id]}</p>
                   <p>₹{item.price * cartItems[item._id]}</p>
-                  <p
-                    onClick={() => removeFromCart(item._id)}
-                    className="cross"
-                  >
+                  <p onClick={() => removeFromCart(item._id)} className="cross">
                     x
                   </p>
                 </div>
@@ -160,9 +148,10 @@ const Cart = () => {
             )}
             <hr />
           </div>
-          <button onClick={() => navigate("/placeorder")}>PROCEED TO CHECKOUT</button>
+          <button onClick={() => navigate("/placeorder")}>
+            PROCEED TO CHECKOUT
+          </button>
         </div>
-
         <div className="cart-promocode">
           <div>
             <p>If you have a promo code, enter it here</p>
@@ -171,7 +160,9 @@ const Cart = () => {
                 type="text"
                 placeholder="Promo code"
                 value={promoCodeInput}
-                onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                onChange={(e) =>
+                  setPromoCodeInput(e.target.value.toUpperCase())
+                }
                 disabled={appliedPromo !== null}
               />
               {!appliedPromo ? (

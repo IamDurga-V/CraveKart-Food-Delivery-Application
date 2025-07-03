@@ -18,8 +18,6 @@ const ExploreMenu = ({ category, setCategory, priceRange, setPriceRange }) => {
         mission is to satisfy your cravings and elevate your dining experience —
         one delicious meal at a time.
       </p>
-
-      {/* Category Filter */}
       <h3 className="explore-menu-heading">Filter by Category</h3>
       <div className="explore-menu-list">
         {menu_list.map((item, index) => (
@@ -41,8 +39,6 @@ const ExploreMenu = ({ category, setCategory, priceRange, setPriceRange }) => {
           </div>
         ))}
       </div>
-
-      {/* Price Filter as Buttons */}
       <h3 className="explore-menu-heading">Filter by Price</h3>
       <div className="explore-menu-price-buttons">
         {priceFilters.map((filter, index) => (
@@ -55,7 +51,6 @@ const ExploreMenu = ({ category, setCategory, priceRange, setPriceRange }) => {
           </button>
         ))}
       </div>
-
       <hr />
     </div>
   );

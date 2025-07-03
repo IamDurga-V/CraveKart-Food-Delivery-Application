@@ -23,8 +23,6 @@ const Sidebar = () => {
           <img src={assets.order_icon} alt="" className="sidebar-icon" />
           <p>Orders</p>
         </NavLink>
-
-        {/* ✅ Added Offer Management Options */}
         <NavLink to="/add-offer" className="sidebar-option">
           <img src={assets.add_icon} alt="" className="sidebar-icon" />
           <p>Add Offer</p>

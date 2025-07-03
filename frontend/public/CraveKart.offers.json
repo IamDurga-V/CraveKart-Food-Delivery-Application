@@ -1,130 +1,132 @@
-[{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409a5"
+[
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409a5"
+    },
+    "code": "WELCOME50",
+    "discountType": "flat",
+    "discountValue": 50,
+    "minOrderAmount": 200,
+    "expiryDate": "2025-12-31T23:59:59.999Z",
+    "forNewUsersOnly": true,
+    "isActive": true,
+    "description": "Get ₹50 off on your first order above ₹200."
   },
-  "code": "WELCOME50",
-  "discountType": "flat",
-  "discountValue": 50,
-  "minOrderAmount": 200,
-  "expiryDate": "2025-12-31T23:59:59.999Z",
-  "forNewUsersOnly": true,
-  "isActive": true,
-  "description": "Get ₹50 off on your first order above ₹200."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409a6"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409a6"
+    },
+    "code": "FESTIVE15",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "minOrderAmount": 300,
+    "expiryDate": "2025-11-10T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Flat 15% off on festive season orders above ₹300."
   },
-  "code": "FESTIVE15",
-  "discountType": "percentage",
-  "discountValue": 15,
-  "minOrderAmount": 300,
-  "expiryDate": "2025-11-10T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Flat 15% off on festive season orders above ₹300."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409a7"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409a7"
+    },
+    "code": "BIGSAVE100",
+    "discountType": "flat",
+    "discountValue": 100,
+    "minOrderAmount": 599,
+    "expiryDate": "2025-08-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Save ₹100 on orders above ₹599."
   },
-  "code": "BIGSAVE100",
-  "discountType": "flat",
-  "discountValue": 100,
-  "minOrderAmount": 599,
-  "expiryDate": "2025-08-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Save ₹100 on orders above ₹599."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409a8"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409a8"
+    },
+    "code": "NOREGRET20",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "minOrderAmount": 400,
+    "expiryDate": "2025-09-15T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "20% off! No regrets, just rewards on ₹400+ orders."
   },
-  "code": "NOREGRET20",
-  "discountType": "percentage",
-  "discountValue": 20,
-  "minOrderAmount": 400,
-  "expiryDate": "2025-09-15T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "20% off! No regrets, just rewards on ₹400+ orders."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409a9"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409a9"
+    },
+    "code": "FREEDINE",
+    "discountType": "freeDelivery",
+    "discountValue": 0,
+    "minOrderAmount": 0,
+    "expiryDate": "2025-12-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Enjoy free delivery on all orders today!"
   },
-  "code": "FREEDINE",
-  "discountType": "freeDelivery",
-  "discountValue": 0,
-  "minOrderAmount": 0,
-  "expiryDate": "2025-12-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Enjoy free delivery on all orders today!"
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409aa"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409aa"
+    },
+    "code": "MIDWEEK40",
+    "discountType": "flat",
+    "discountValue": 40,
+    "minOrderAmount": 249,
+    "expiryDate": "2025-10-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Midweek munchies? Get ₹40 off on ₹249+ orders."
   },
-  "code": "MIDWEEK40",
-  "discountType": "flat",
-  "discountValue": 40,
-  "minOrderAmount": 249,
-  "expiryDate": "2025-10-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Midweek munchies? Get ₹40 off on ₹249+ orders."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409ab"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409ab"
+    },
+    "code": "NOFEE100",
+    "discountType": "freeDelivery",
+    "discountValue": 0,
+    "minOrderAmount": 100,
+    "expiryDate": "2025-09-30T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "No delivery charges on orders above ₹100."
   },
-  "code": "NOFEE100",
-  "discountType": "freeDelivery",
-  "discountValue": 0,
-  "minOrderAmount": 100,
-  "expiryDate": "2025-09-30T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "No delivery charges on orders above ₹100."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409ac"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409ac"
+    },
+    "code": "LUNCHTIME10",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "minOrderAmount": 150,
+    "expiryDate": "2025-12-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "10% off on all lunch orders above ₹150 between 12 PM - 3 PM."
   },
-  "code": "LUNCHTIME10",
-  "discountType": "percentage",
-  "discountValue": 10,
-  "minOrderAmount": 150,
-  "expiryDate": "2025-12-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "10% off on all lunch orders above ₹150 between 12 PM - 3 PM."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409ad"
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409ad"
+    },
+    "code": "WEEKEND75",
+    "discountType": "flat",
+    "discountValue": 75,
+    "minOrderAmount": 500,
+    "expiryDate": "2025-12-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Flat ₹75 off on weekend orders above ₹500."
   },
-  "code": "WEEKEND75",
-  "discountType": "flat",
-  "discountValue": 75,
-  "minOrderAmount": 500,
-  "expiryDate": "2025-12-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Flat ₹75 off on weekend orders above ₹500."
-},
-{
-  "_id": {
-    "$oid": "686624ec11cee5c3392409ae"
-  },
-  "code": "EXTRA5",
-  "discountType": "percentage",
-  "discountValue": 5,
-  "minOrderAmount": 100,
-  "expiryDate": "2025-08-31T23:59:59.999Z",
-  "forNewUsersOnly": false,
-  "isActive": true,
-  "description": "Extra 5% off for every order this month!"
-}]
+  {
+    "_id": {
+      "$oid": "686624ec11cee5c3392409ae"
+    },
+    "code": "EXTRA5",
+    "discountType": "percentage",
+    "discountValue": 5,
+    "minOrderAmount": 100,
+    "expiryDate": "2025-08-31T23:59:59.999Z",
+    "forNewUsersOnly": false,
+    "isActive": true,
+    "description": "Extra 5% off for every order this month!"
+  }
+]

@@ -35,12 +35,10 @@ const createToken = (id, role) => {
 const registerUser = async (req, res) => {
   const { name, password, email, role } = req.body;
   try {
-    // Checking User Already Exists
     const exists = await userModel.findOne({ email });
     if (exists) {
       return res.json({ success: false, message: "User Already Exists" });
     }
-    // Validating Email Format & Strong Password
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: "Please Enter Valid Email" });
     }
@@ -50,21 +48,17 @@ const registerUser = async (req, res) => {
         message: "Please Enter Strong Password",
       });
     }
-    // Validating Role
     if (!["User", "Admin"].includes(role)) {
       return res.json({ success: false, message: "Invalid Role" });
     }
-    // Hashing User Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const newUser = new userModel({
       name: name,
       email: email,
       password: hashedPassword,
-      role: role, // Save role
+      role: role,
     });
-
     const user = await newUser.save();
     const token = createToken(user._id, user.role);
     res.json({ success: true, token });

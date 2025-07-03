@@ -1,24 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is imported
-
+import { jwtDecode } from "jwt-decode";
 export const StoreContext = createContext(null);
-
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [food_list, setFoodList] = useState([]);
-  const [token, setToken] = useState(""); // Initialize token as empty string
-
-  // Initialize userRole and userId based on what is in localStorage or default
-  // These will be immediately overwritten by useEffect if a valid token exists
-  const [userRole, setUserRole] = useState(localStorage.getItem("role") || "User");
+  const [token, setToken] = useState("");
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("role") || "User",
+  );
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
-
-  // --- NEW STATE: loading ---
-  // This state indicates if the initial token and data loading process is complete.
-  const [loading, setLoading] = useState(true); // Starts as true, set to false after loadData completes
-
-  // Load promo from localStorage or default to null/0
+  const [loading, setLoading] = useState(true);
   const [appliedPromo, setAppliedPromo] = useState(() => {
     const promo = localStorage.getItem("appliedPromo");
     return promo ? JSON.parse(promo) : null;
@@ -27,15 +19,10 @@ const StoreContextProvider = (props) => {
     const discount = localStorage.getItem("discountAmount");
     return discount ? parseInt(discount, 10) : 0;
   });
-
   const url = "http://localhost:4000";
-
-  // Use a memoized authHeader to prevent unnecessary re-renders if token is the only dependency
   const authHeader = React.useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
-
-  // Sync promo and discount state with localStorage whenever they change
   useEffect(() => {
     if (appliedPromo) {
       localStorage.setItem("appliedPromo", JSON.stringify(appliedPromo));
@@ -43,7 +30,6 @@ const StoreContextProvider = (props) => {
       localStorage.removeItem("appliedPromo");
     }
   }, [appliedPromo]);
-
   useEffect(() => {
     if (discountAmount > 0) {
       localStorage.setItem("discountAmount", discountAmount.toString());
@@ -51,7 +37,6 @@ const StoreContextProvider = (props) => {
       localStorage.removeItem("discountAmount");
     }
   }, [discountAmount]);
-
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
       ...prev,
@@ -60,7 +45,11 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/add`, { itemId }, { headers: authHeader });
+        await axios.post(
+          `${url}/api/cart/add`,
+          { itemId },
+          { headers: authHeader },
+        );
       } catch (error) {
         console.error("Add to cart error:", error);
       }
@@ -77,10 +66,13 @@ const StoreContextProvider = (props) => {
       }
       return newCart;
     });
-
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/remove`, { itemId }, { headers: authHeader });
+        await axios.post(
+          `${url}/api/cart/remove`,
+          { itemId },
+          { headers: authHeader },
+        );
       } catch (error) {
         console.error("Remove from cart error:", error);
       }
@@ -111,19 +103,24 @@ const StoreContextProvider = (props) => {
 
   const localCartData = async () => {
     try {
-      const response = await axios.post(`${url}/api/cart/get`, {}, { headers: authHeader });
+      const response = await axios.post(
+        `${url}/api/cart/get`,
+        {},
+        { headers: authHeader },
+      );
       setCartItems(response?.data?.cartData || {});
     } catch (error) {
       console.error("Failed to load cart data:", error);
-      setCartItems({}); // Clear cart if loading fails
+      setCartItems({});
     }
   };
 
   const calculatePromoDiscount = (promo, orderAmount) => {
     if (!promo || !promo.discountType || !promo.discountValue) return 0;
-    if (promo.discountType === "delivery") return 200; // Assuming fixed delivery discount
+    if (promo.discountType === "delivery") return 200;
     if (promo.discountType === "flat") return promo.discountValue;
-    if (promo.discountType === "percentage") return Math.round((promo.discountValue / 100) * orderAmount);
+    if (promo.discountType === "percentage")
+      return Math.round((promo.discountValue / 100) * orderAmount);
     return 0;
   };
 
@@ -134,54 +131,41 @@ const StoreContextProvider = (props) => {
     localStorage.removeItem("discountAmount");
   };
 
-  // Main effect to load initial data and handle token changes
   useEffect(() => {
     const loadData = async () => {
       const storedToken = localStorage.getItem("token");
-      setToken(storedToken || ""); // Update token state, ensuring it's never 'null'
-
+      setToken(storedToken || "");
       if (storedToken) {
         try {
           const decoded = jwtDecode(storedToken);
           const role = decoded.role || "User";
-          const id = decoded.id || decoded.userId || decoded._id; // Handle different potential ID fields
-
-          setUserRole(role); // Set userRole in state
-          setUserId(id);     // Set userId in state
-
-          // Also ensure localStorage reflects these, especially if the token was just set
+          const id = decoded.id || decoded.userId || decoded._id;
+          setUserRole(role);
+          setUserId(id);
           localStorage.setItem("role", role);
           localStorage.setItem("userId", id);
-
-          console.log("StoreContext useEffect: Set userRole:", role, "userId:", id);
-
-          await localCartData(); // Fetch cart data if user is logged in
+          await localCartData();
         } catch (error) {
-          console.error("StoreContext useEffect: Token decoding error or invalid token:", error);
-          // If token is invalid or decoding fails, clear all auth states
           setToken("");
-          setUserRole("User"); // Set default role
+          setUserRole("User");
           setUserId("");
           localStorage.removeItem("token");
           localStorage.removeItem("role");
           localStorage.removeItem("userId");
-          setCartItems({}); // Clear cart for invalid/expired tokens
+          setCartItems({});
         }
       } else {
-        // If no token, ensure role is "User" and userId is empty
         setUserRole("User");
         setUserId("");
-        localStorage.removeItem("role"); // Ensure role is removed if no token
-        localStorage.removeItem("userId"); // Ensure userId is removed if no token
-        setCartItems({}); // Clear cart if not logged in
+        localStorage.removeItem("role");
+        localStorage.removeItem("userId");
+        setCartItems({});
       }
-      await fetchFoodDisplay(); // Always fetch food list
-      setLoading(false); // Set loading to false once all initial data is loaded
+      await fetchFoodDisplay();
+      setLoading(false);
     };
-
     loadData();
-  }, [token]); // Re-run this effect whenever the `token` state changes
-
+  }, [token]);
   const contextValue = {
     food_list,
     cartItems,
@@ -202,14 +186,12 @@ const StoreContextProvider = (props) => {
     setDiscountAmount,
     calculatePromoDiscount,
     clearPromo,
-    loading, // Expose the loading state
+    loading,
   };
-
   return (
     <StoreContext.Provider value={contextValue}>
       {props.children}
     </StoreContext.Provider>
   );
 };
-
 export default StoreContextProvider;

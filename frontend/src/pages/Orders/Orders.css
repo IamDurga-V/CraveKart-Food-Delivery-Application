@@ -3,15 +3,21 @@
   grid-template-columns: 0.5fr 1fr 2fr 1fr 1fr 1fr;
   align-items: start;
   gap: 20px;
-  border: 1px solid #A83232;
-  padding: 20px;
+  border: 1px solid #a83232;
+  border-radius: 12px;
+  padding: 25px;
   margin: 30px 0;
   font-size: 14px;
   color: #505050;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .order-item img {
-  width: 50px;
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
 .order-item-food,
@@ -20,31 +26,37 @@
 }
 
 .order-item-name {
-  font-weight: 600;
   margin-bottom: 4px;
+  font-size: 15px;
 }
 
 .order-item-food p,
 .order-item-address p {
-  margin: 2px 0;
-  line-height: 1.4;
+  margin: 4px 0;
+  line-height: 1.5;
+  font-size: 13.5px;
+  color: #333;
 }
 
 .order-item select {
-  background-color: bisque;
-  border: 1px solid #A83232;
+  background-color: #ffe6d9;
+  border: 1px solid #a83232;
   width: max(10vw, 120px);
-  padding: 10px;
+  padding: 10px 12px;
   font-size: 14px;
   outline: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  color: #333;
 }
 
 @media (max-width: 900px) {
   .order-item {
     grid-template-columns: 1fr;
     font-size: 13px;
+    padding: 20px;
+    border-left: 4px solid #a83232;
+    border-radius: 10px;
   }
 
   .order-item select {
@@ -56,7 +68,7 @@
   }
 
   .order-item-address p {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .order-item-name {
@@ -66,12 +78,12 @@
 
 @media (max-width: 600px) {
   .order-item {
-    grid-template-columns: 1fr;
-    font-size: 11px;
+    font-size: 12px;
+    padding: 15px;
   }
 
   .order-item select {
-    width: 100%;
+    width: 90%;
   }
 
   .order-item img {

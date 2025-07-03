@@ -6,7 +6,6 @@ import { assets } from "../../assets/assets";
 const Offers = () => {
   const [offersData, setOffersData] = useState([]);
   const scrollRef = useRef(null);
-
   const fetchOffers = async () => {
     try {
       const res = await axios.get("http://localhost:4000/api/offer/all");
@@ -15,19 +14,15 @@ const Offers = () => {
       console.error("Error fetching offers:", err);
     }
   };
-
   useEffect(() => {
     fetchOffers();
   }, []);
-
   const scrollLeft = () => {
     scrollRef.current.scrollLeft -= 300;
   };
-
   const scrollRight = () => {
     scrollRef.current.scrollLeft += 300;
   };
-
   return (
     <div className="offers" id="offers">
       <h1 className="offers-heading">CraveKart Exclusive Offers</h1>
@@ -46,20 +41,17 @@ const Offers = () => {
         </button>
 
         <div className="offers-scroll-wrapper" ref={scrollRef}>
-          {/* Static Circular Banner Image */}
           <div className="offer-image-circle">
             <img src={assets.offer_banner} alt="Promo Banner" />
           </div>
-
-          {/* Offer Cards */}
           {offersData.map((offer) => (
             <div className="offer-card" key={offer._id}>
               <div className="offer-badge">
                 {offer.forNewUsersOnly
                   ? "New"
                   : offer.discountType === "flat"
-                  ? "Hot Deal"
-                  : "Discount"}
+                    ? "Hot Deal"
+                    : "Discount"}
               </div>
               <h3>
                 {offer.discountType === "flat"
@@ -67,18 +59,15 @@ const Offers = () => {
                   : `${offer.discountValue}% OFF`}
               </h3>
               <p>On orders above ₹{offer.minOrderAmount}.</p>
-
               {offer.description && (
                 <p className="offer-description">{offer.description}</p>
               )}
-
               {offer.code && offer.code !== "N/A" && (
                 <p className="offer-code">
                   <img src={assets.tag_icon} alt="Tag Icon" />
                   <strong>Use Code:</strong> {offer.code}
                 </p>
               )}
-
               <p className="validity">
                 {offer.expiryDate
                   ? `Valid till ${new Date(offer.expiryDate).toLocaleDateString()}`
@@ -87,7 +76,6 @@ const Offers = () => {
             </div>
           ))}
         </div>
-
         <button className="scroll-btn right" onClick={scrollRight}>
           ▶
         </button>

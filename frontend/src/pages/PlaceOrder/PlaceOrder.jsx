@@ -3,7 +3,6 @@ import "./PlaceOrder.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 const PlaceOrder = () => {
   const {
     getTotalCartAmount,
@@ -13,13 +12,11 @@ const PlaceOrder = () => {
     url,
     discountAmount,
     appliedPromo,
-    setDiscountAmount,  // Added for clearing promo
-    setAppliedPromo,    // Added for clearing promo
-    setCartItems,       // Added for clearing cart
+    setDiscountAmount,
+    setAppliedPromo,
+    setCartItems,
   } = useContext(StoreContext);
-
   const navigate = useNavigate();
-
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -31,21 +28,17 @@ const PlaceOrder = () => {
     country: "",
     phone: "",
   });
-
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
-
   const placeOrder = async (event) => {
     event.preventDefault();
-
     const subtotal = getTotalCartAmount();
     if (subtotal === 0) {
       console.warn("Cart is empty! Cannot proceed to payment.");
       return;
     }
-
     const orderItems = [];
     food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
@@ -56,7 +49,6 @@ const PlaceOrder = () => {
         });
       }
     });
-
     const address = {
       name: `${data.firstName} ${data.lastName}`,
       email: data.email,
@@ -67,33 +59,29 @@ const PlaceOrder = () => {
       country: data.country,
       phone: data.phone,
     };
-
     const deliveryFee = subtotal === 0 ? 0 : 200;
     const totalAmountBeforeDiscount = subtotal + deliveryFee;
-    const payableAmount = Math.max(totalAmountBeforeDiscount - discountAmount, 0);
-
+    const payableAmount = Math.max(
+      totalAmountBeforeDiscount - discountAmount,
+      0,
+    );
     const orderData = {
       address,
       items: orderItems,
       amount: payableAmount,
       promoCode: appliedPromo?.code || null,
     };
-
     try {
       const response = await axios.post(`${url}/api/order/place`, orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (response.data.success) {
-        // Clear promo and cart state on successful order creation
         setDiscountAmount(0);
         setAppliedPromo(null);
         setCartItems({});
-
         const { razorpayOrderId, amount, currency, orderId } = response.data;
-
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID,
           amount: amount,
@@ -113,23 +101,18 @@ const PlaceOrder = () => {
             window.location.href = `/verify?success=true&orderId=${orderId}&razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`;
           },
         };
-
         const rzp = new window.Razorpay(options);
         let paymentProcessed = false;
-
         rzp.on("payment.failed", function (response) {
           paymentProcessed = true;
           window.location.href = `/verify?success=false&orderId=${orderId}&payment_id=${response.error.metadata.payment_id}`;
         });
-
         rzp.on("modal.close", function () {
           if (!paymentProcessed) {
             window.location.href = `/verify?success=false&orderId=${orderId}&reason=closed`;
           }
         });
-
         rzp.open();
-
         setTimeout(() => {
           if (!paymentProcessed && rzp.isOpen()) {
             rzp.close();
@@ -144,18 +127,15 @@ const PlaceOrder = () => {
       window.location.href = `/verify?success=false`;
     }
   };
-
   useEffect(() => {
     if (!token || getTotalCartAmount() === 0) {
       navigate("/cart");
     }
   }, [token, getTotalCartAmount, navigate]);
-
   const subtotal = getTotalCartAmount();
   const deliveryFee = subtotal === 0 ? 0 : 200;
   const totalBeforeDiscount = subtotal + deliveryFee;
   const totalAfterDiscount = Math.max(totalBeforeDiscount - discountAmount, 0);
-
   return (
     <form onSubmit={placeOrder} className="place-order">
       <div className="place-order-left">
@@ -239,7 +219,6 @@ const PlaceOrder = () => {
           required
         />
       </div>
-
       <div className="place-order-right">
         <div className="cart-total">
           <h2>Cart Totals</h2>
@@ -258,7 +237,6 @@ const PlaceOrder = () => {
               <b>Total</b>
               <b>₹{totalBeforeDiscount}</b>
             </div>
-
             {discountAmount > 0 && (
               <>
                 <hr />

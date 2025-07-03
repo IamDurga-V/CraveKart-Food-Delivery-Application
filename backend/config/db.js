@@ -4,5 +4,5 @@ export const connectDB = async () => {
     .connect(
       "mongodb+srv://DurgaV:Durga482004@cluster0.afxxv97.mongodb.net/CraveKart",
     )
-    .then(() => console.log("DB Connected"));
+    .then(() => console.log("MongoDB DataBase Connected"));
 };

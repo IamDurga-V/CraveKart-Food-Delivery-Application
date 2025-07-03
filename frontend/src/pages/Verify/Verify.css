@@ -1,7 +1,7 @@
 .verify-page {
   text-align: center;
-  padding: 40px;
-  font-family: 'Poppins', sans-serif;
+  padding: 40px 20px;
+  font-family: "Poppins", sans-serif;
 }
 
 .spinner-container {
@@ -12,7 +12,7 @@
 
 .spinner {
   border: 5px solid #ddd;
-  border-top: 5px solid #4CAF50;
+  border-top: 5px solid #4caf50;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -21,14 +21,41 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success-message {
-  color: green;
+  color: #28a745;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
 }
 
 .error-message {
-  color: red;
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .verify-page {
+    padding: 30px 15px;
+  }
+
+  .spinner {
+    width: 45px;
+    height: 45px;
+    border-width: 4px;
+  }
+
+  .success-message,
+  .error-message {
+    font-size: 16px;
+  }
 }

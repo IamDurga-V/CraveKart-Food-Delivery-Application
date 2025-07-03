@@ -1,20 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./SearchModal.css";
 import { StoreContext } from "../../context/StoreContext";
-import { assets } from "../../assets/assets";
-
 const SearchModal = ({ onClose }) => {
   const { food_list, url } = useContext(StoreContext);
   const [query, setQuery] = useState("");
   const [filteredFoods, setFilteredFoods] = useState([]);
-
   useEffect(() => {
     const results = food_list.filter((food) =>
-      food.name.toLowerCase().includes(query.toLowerCase())
+      food.name.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredFoods(results);
   }, [query, food_list]);
-
   const scrollToFoodItem = (id) => {
     const element = document.getElementById(`food-item-${id}`);
     if (element) {
@@ -22,20 +18,18 @@ const SearchModal = ({ onClose }) => {
       onClose();
     }
   };
-
   return (
     <div className="search-modal-overlay">
       <div className="search-modal">
-        {/* ❌ Close Icon */}
-        <button className="close-btn" onClick={onClose}>×</button>
-
+        <button className="close-btn" onClick={onClose}>
+          ×
+        </button>
         <input
           type="text"
           placeholder="Search for dishes..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-
         <div className="search-results">
           {filteredFoods.length === 0 ? (
             <p style={{ textAlign: "center", padding: "20px" }}>

@@ -6,14 +6,12 @@ import FoodItem from "../FoodItem/FoodItem";
 const FoodDisplay = ({ category, priceRange }) => {
   const { food_list } = useContext(StoreContext);
   const [searchTerm, setSearchTerm] = useState("");
-
   const filterByPrice = (price) => {
     if (priceRange === "All") return true;
     if (priceRange === "under-100") return price < 100;
     if (priceRange === "100-200") return price >= 100 && price <= 200;
     if (priceRange === "above-200") return price > 200;
   };
-
   return (
     <div className="food-display" id="food-display">
       <div className="food-display-header">
@@ -25,7 +23,6 @@ const FoodDisplay = ({ category, priceRange }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
       <div className="food-display-list">
         {food_list
           .filter(

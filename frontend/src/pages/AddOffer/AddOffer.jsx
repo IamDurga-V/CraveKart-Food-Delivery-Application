@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import './AddOffer.css';
+import "./AddOffer.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const AddOffer = () => {
   const [formData, setFormData] = useState({
     code: "",
-    description: "",       // Added description field
-    discountType: "flat",  // flat | percentage | delivery
+    description: "",
+    discountType: "flat",
     discountValue: 0,
     minOrderAmount: 0,
     expiryDate: "",
     forNewUsersOnly: false,
     isActive: true,
   });
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -23,19 +22,17 @@ const AddOffer = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:4000/api/offer/add", formData);
-      toast.success("🎉 Offer added successfully!", {
-        position: "top-center",
+      toast.success("Offer added successfully!", {
+        position: "top-right",
         autoClose: 2000,
       });
-
       setFormData({
         code: "",
-        description: "",      // reset description too
+        description: "",
         discountType: "flat",
         discountValue: 0,
         minOrderAmount: 0,
@@ -44,8 +41,8 @@ const AddOffer = () => {
         isActive: true,
       });
     } catch (err) {
-      toast.error(err.response?.data?.message || "❌ Error adding offer", {
-        position: "top-center",
+      toast.error(err.response?.data?.message || "Error adding offer", {
+        position: "top-right",
         autoClose: 3000,
       });
     }
@@ -62,8 +59,7 @@ const AddOffer = () => {
           onChange={handleChange}
           required
         />
-
-        <label htmlFor="description">Description</label> {/* New label */}
+        <label htmlFor="description">Description</label>
         <textarea
           name="description"
           value={formData.description}
@@ -72,7 +68,6 @@ const AddOffer = () => {
           rows={3}
           required
         />
-
         <label htmlFor="discountType">Discount Type</label>
         <select
           name="discountType"
@@ -81,9 +76,8 @@ const AddOffer = () => {
         >
           <option value="flat">Flat</option>
           <option value="percentage">Percentage</option>
-          <option value="delivery">Free Delivery</option> {/* New option */}
+          <option value="delivery">Free Delivery</option>
         </select>
-
         {formData.discountType !== "delivery" && (
           <>
             <label htmlFor="discountValue">Discount Value</label>
@@ -97,7 +91,6 @@ const AddOffer = () => {
             />
           </>
         )}
-
         <label htmlFor="minOrderAmount">Minimum Order Amount</label>
         <input
           type="number"
@@ -106,7 +99,6 @@ const AddOffer = () => {
           onChange={handleChange}
           min={0}
         />
-
         <label htmlFor="expiryDate">Expiry Date</label>
         <input
           type="date"
@@ -115,7 +107,6 @@ const AddOffer = () => {
           onChange={handleChange}
           required
         />
-
         <label>
           <input
             type="checkbox"
@@ -125,7 +116,6 @@ const AddOffer = () => {
           />
           For New Users Only
         </label>
-
         <label>
           <input
             type="checkbox"
@@ -135,10 +125,8 @@ const AddOffer = () => {
           />
           Active
         </label>
-
         <button type="submit">Add Offer</button>
       </form>
-
       <ToastContainer />
     </div>
   );

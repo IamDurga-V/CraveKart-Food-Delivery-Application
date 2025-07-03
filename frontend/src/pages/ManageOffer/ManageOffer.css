@@ -5,13 +5,13 @@
   background-color: #fff8f7;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .manage-offers-container h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #A83232;
+  color: #a83232;
   font-size: 24px;
 }
 
@@ -29,7 +29,6 @@
   font-size: 15px;
 }
 
-/* Grid-style display format for each row */
 .display-table-format {
   display: grid;
   grid-template-columns: 1fr 1fr 0.8fr 1fr 1fr 1fr 0.6fr 0.6fr;
@@ -44,7 +43,7 @@
 .display-table-format.title {
   background-color: #fbeaea;
   font-weight: bold;
-  color: #A83232;
+  color: #a83232;
   border-top: 1px solid #ddd;
 }
 
@@ -56,7 +55,6 @@
   background-color: #fff2f1;
 }
 
-/* Buttons */
 .delete-btn {
   background-color: #e74c3c;
   color: white;
@@ -72,7 +70,6 @@
   background-color: #c0392b;
 }
 
-/* Optional reusable icon classes */
 .cursor {
   cursor: pointer;
 }
@@ -84,8 +81,6 @@
 .delete-icon {
   color: #e74c3c;
 }
-
-/* Responsive Design */
 @media (max-width: 900px) {
   .display-table-format {
     grid-template-columns: 1fr 1fr 1fr 1fr;

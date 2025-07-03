@@ -7,30 +7,24 @@ import { StoreContext } from "../../context/StoreContext";
 
 const Home = () => {
   const { token, url } = useContext(StoreContext);
-
   const [stats, setStats] = useState({
     totalOrders: 0,
     totalIncome: 0,
     totalUsers: 0,
   });
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchStats = async () => {
       if (!token) {
         console.warn("Token not yet set, skipping fetchStats.");
         return;
       }
-
       try {
-        console.log("Sending token to backend:", token);
-
         const res = await axios.get(`${url}/api/admin/stats`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (res.data.success) {
           setStats({
             totalOrders: res.data.totalOrders,
@@ -46,7 +40,6 @@ const Home = () => {
         setLoading(false);
       }
     };
-
     fetchStats();
   }, [url, token]);
 
@@ -57,7 +50,6 @@ const Home = () => {
           <h1>Welcome, Admin!</h1>
           <div className="underline"></div>
         </div>
-
         {loading ? (
           <p className="loading-message">Loading stats...</p>
         ) : (
@@ -91,7 +83,6 @@ const Home = () => {
             </div>
           </div>
         )}
-
         <div className="quick-actions">
           <h2>Quick Actions</h2>
           <div className="action-buttons">

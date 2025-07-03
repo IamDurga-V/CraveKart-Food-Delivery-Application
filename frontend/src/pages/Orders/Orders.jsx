@@ -3,16 +3,14 @@ import "./Orders.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { assets } from "../../../../frontend/src/assets/assets";
-
 const Orders = ({ url }) => {
   const [orders, setOrders] = useState([]);
-
   const fetchAllOrders = async () => {
     try {
       const response = await axios.get(`${url}/api/order/list`);
       if (response.data.success) {
         setOrders(response.data.data);
-        console.log("✅ Orders fetched:", response.data.data);
+        console.log("Orders fetched:", response.data.data);
       } else {
         toast.error("❌ Failed to fetch orders");
       }
@@ -21,7 +19,6 @@ const Orders = ({ url }) => {
       console.error("Fetch Error:", error);
     }
   };
-
   const statusHandler = async (event, orderId) => {
     try {
       const newStatus = event.target.value;
@@ -29,23 +26,20 @@ const Orders = ({ url }) => {
         orderId,
         status: newStatus,
       });
-
       if (response.data.success) {
-        toast.success("✅ Status updated");
-        fetchAllOrders(); // refresh the orders list
+        toast.success("Status updated");
+        fetchAllOrders();
       } else {
-        toast.error("❌ Failed to update status");
+        toast.error("Failed to update status");
       }
     } catch (error) {
-      toast.error("❌ Error updating status");
+      toast.error("Error updating status");
       console.error("Status Update Error:", error);
     }
   };
-
   useEffect(() => {
     fetchAllOrders();
   }, []);
-
   return (
     <div className="order add">
       <h3>Order Page</h3>
@@ -56,8 +50,6 @@ const Orders = ({ url }) => {
           orders.map((order, index) => (
             <div key={index} className="order-item">
               <img src={assets.parcel_icon} alt="parcel" />
-
-              {/* 🥗 Food Items Column */}
               <div className="order-item-food">
                 {order.items.map((item, i) => (
                   <p key={i}>
@@ -65,8 +57,6 @@ const Orders = ({ url }) => {
                   </p>
                 ))}
               </div>
-
-              {/* 📦 Address Details */}
               <div className="order-item-address">
                 <p className="order-item-name">{order.address.name}</p>
                 <p>{order.address.street}</p>
@@ -76,11 +66,8 @@ const Orders = ({ url }) => {
                 </p>
                 <p>{order.address.phone}</p>
               </div>
-
               <p>Items: {order.items.length}</p>
               <p>₹{order.amount}</p>
-
-              {/* 🔄 Status Dropdown */}
               <select
                 onChange={(event) => statusHandler(event, order._id)}
                 value={order.status}

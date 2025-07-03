@@ -7,6 +7,8 @@
 }
 
 .update form {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -22,11 +24,17 @@
 .update-product-name input,
 .update-product-description textarea {
   padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline-color: #a83232;
 }
 
 .update-category-price {
   display: flex;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .update-category-price select,
@@ -37,6 +45,8 @@
   border-radius: 4px;
   font-size: 14px;
   outline-color: #a83232;
+  flex: 1;
+  min-width: 150px;
 }
 
 .update-btn {
@@ -46,4 +56,39 @@
   background-color: black;
   color: white;
   cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.update-btn:hover {
+  background-color: #333;
+}
+
+@media (max-width: 600px) {
+  .update {
+    width: 90%;
+    margin: 20px auto;
+    font-size: 15px;
+  }
+
+  .update form {
+    gap: 16px;
+  }
+
+  .update-product-name,
+  .update-product-description {
+    width: 100%;
+  }
+
+  .update-category-price {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .update-btn {
+    width: 100%;
+    max-width: none;
+    padding: 12px;
+    font-size: 15px;
+  }
 }

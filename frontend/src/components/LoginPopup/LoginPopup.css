@@ -194,7 +194,7 @@
 
   .login-popup-left {
     padding: 20px;
-    display: none; /* Hide illustration on small screens */
+    display: none;
   }
 
   .login-popup-right {
