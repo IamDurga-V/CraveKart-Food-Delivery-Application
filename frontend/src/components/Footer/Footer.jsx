@@ -5,8 +5,14 @@ import { assets } from "../../assets/assets";
 const Footer = () => {
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    // Placeholder for form submission logic
-    alert("Form submitted! (Add backend logic here)");
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const message = formData.get("message");
+
+    // Replace this alert with your backend API call
+    alert(`Thank you, ${name}! We'll get back to you soon.`);
+    e.target.reset();
   };
 
   return (
@@ -22,9 +28,27 @@ const Footer = () => {
             experiences.
           </p>
           <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="Facebook" />
-            <img src={assets.twitter_icon} alt="Twitter" />
-            <img src={assets.linkedin_icon} alt="LinkedIn" />
+            <a
+              href="https://github.com/IamDurga-V"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.facebook_icon} alt="GitHub" />
+            </a>
+            <a
+              href="https://x.com/durgavellingiri?t=qf27gmJPyvidN5gumkJBQw&s=09"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.twitter_icon} alt="Twitter" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/durga-v-780165277/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.linkedin_icon} alt="LinkedIn" />
+            </a>
           </div>
         </div>
         <div className="footer-content-center">
