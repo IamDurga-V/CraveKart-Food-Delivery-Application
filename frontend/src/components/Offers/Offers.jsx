@@ -1,35 +1,33 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Offers.css";
+import axios from "axios";
 import { assets } from "../../assets/assets";
 
-const offersData = [
-  {
-    id: 1,
-    title: "Flat ₹100 OFF",
-    description: "On orders above ₹499. Use code: CRAVE100",
-    code: "CRAVE100",
-    validTill: "Valid till 30th June 2025",
-    badge: "Hot Deal",
-  },
-  {
-    id: 2,
-    title: "20% OFF on First Order",
-    description: "New users only. Use code: FIRST20",
-    code: "FIRST20",
-    validTill: "Valid till 15th July 2025",
-    badge: "New",
-  },
-  {
-    id: 3,
-    title: "Free Delivery",
-    description: "On orders above ₹299. No code required.",
-    code: "N/A",
-    validTill: "Limited time offer!",
-    badge: "Free Delivery",
-  },
-];
-
 const Offers = () => {
+  const [offersData, setOffersData] = useState([]);
+  const scrollRef = useRef(null);
+
+  const fetchOffers = async () => {
+    try {
+      const res = await axios.get("http://localhost:4000/api/offer/all");
+      setOffersData(res.data);
+    } catch (err) {
+      console.error("Error fetching offers:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollLeft -= 300;
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollLeft += 300;
+  };
+
   return (
     <div className="offers" id="offers">
       <h1 className="offers-heading">CraveKart Exclusive Offers</h1>
@@ -42,29 +40,57 @@ const Offers = () => {
         something special waiting!
       </p>
 
-      <div className="offers-container">
-        {/* Left image */}
-        <div className="offers-image">
-          <img src={assets.offer_banner} alt="Offers Banner" />
-        </div>
+      <div className="offers-carousel-container">
+        <button className="scroll-btn left" onClick={scrollLeft}>
+          ◀
+        </button>
 
-        {/* Right cards */}
-        <div className="offers-list">
+        <div className="offers-scroll-wrapper" ref={scrollRef}>
+          {/* Static Circular Banner Image */}
+          <div className="offer-image-circle">
+            <img src={assets.offer_banner} alt="Promo Banner" />
+          </div>
+
+          {/* Offer Cards */}
           {offersData.map((offer) => (
-            <div className="offer-card" key={offer.id}>
-              <div className="offer-badge">{offer.badge}</div>
-              <h3>{offer.title}</h3>
-              <p>{offer.description}</p>
-              {offer.code !== "N/A" && (
+            <div className="offer-card" key={offer._id}>
+              <div className="offer-badge">
+                {offer.forNewUsersOnly
+                  ? "New"
+                  : offer.discountType === "flat"
+                  ? "Hot Deal"
+                  : "Discount"}
+              </div>
+              <h3>
+                {offer.discountType === "flat"
+                  ? `Flat ₹${offer.discountValue} OFF`
+                  : `${offer.discountValue}% OFF`}
+              </h3>
+              <p>On orders above ₹{offer.minOrderAmount}.</p>
+
+              {offer.description && (
+                <p className="offer-description">{offer.description}</p>
+              )}
+
+              {offer.code && offer.code !== "N/A" && (
                 <p className="offer-code">
-                  <img src={assets.tag_icon} alt="Tag" />
+                  <img src={assets.tag_icon} alt="Tag Icon" />
                   <strong>Use Code:</strong> {offer.code}
                 </p>
               )}
-              <p className="validity">{offer.validTill}</p>
+
+              <p className="validity">
+                {offer.expiryDate
+                  ? `Valid till ${new Date(offer.expiryDate).toLocaleDateString()}`
+                  : "Limited time offer!"}
+              </p>
             </div>
           ))}
         </div>
+
+        <button className="scroll-btn right" onClick={scrollRight}>
+          ▶
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 export const StoreContext = createContext(null);
 
@@ -9,10 +10,38 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
-  const [userId, setUserId] = useState(localStorage.getItem("userId") || ""); // ✅ Added userId
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+
+  // Load promo from localStorage or default to null/0
+  const [appliedPromo, setAppliedPromo] = useState(() => {
+    const promo = localStorage.getItem("appliedPromo");
+    return promo ? JSON.parse(promo) : null;
+  });
+  const [discountAmount, setDiscountAmount] = useState(() => {
+    const discount = localStorage.getItem("discountAmount");
+    return discount ? parseInt(discount, 10) : 0;
+  });
+
   const url = "http://localhost:4000";
 
   const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
+  // Sync promo and discount state with localStorage whenever they change
+  useEffect(() => {
+    if (appliedPromo) {
+      localStorage.setItem("appliedPromo", JSON.stringify(appliedPromo));
+    } else {
+      localStorage.removeItem("appliedPromo");
+    }
+  }, [appliedPromo]);
+
+  useEffect(() => {
+    if (discountAmount > 0) {
+      localStorage.setItem("discountAmount", discountAmount.toString());
+    } else {
+      localStorage.removeItem("discountAmount");
+    }
+  }, [discountAmount]);
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -81,6 +110,21 @@ const StoreContextProvider = (props) => {
     }
   };
 
+  const calculatePromoDiscount = (promo, orderAmount) => {
+    if (!promo || !promo.discountType || !promo.discountValue) return 0;
+    if (promo.discountType === "delivery") return 200;
+    if (promo.discountType === "flat") return promo.discountValue;
+    if (promo.discountType === "percentage") return Math.round((promo.discountValue / 100) * orderAmount);
+    return 0;
+  };
+
+  const clearPromo = () => {
+    setAppliedPromo(null);
+    setDiscountAmount(0);
+    localStorage.removeItem("appliedPromo");
+    localStorage.removeItem("discountAmount");
+  };
+
   useEffect(() => {
     const loadData = async () => {
       const storedToken = localStorage.getItem("token");
@@ -89,11 +133,11 @@ const StoreContextProvider = (props) => {
         try {
           const decoded = jwtDecode(storedToken);
           const role = decoded.role || "User";
-          const id = decoded.id || decoded.userId || decoded._id; // ✅ Adjust based on your JWT
-          
+          const id = decoded.id || decoded.userId || decoded._id;
+
           setUserRole(role);
           setUserId(id);
-          
+
           localStorage.setItem("role", role);
           localStorage.setItem("userId", id);
 
@@ -132,8 +176,14 @@ const StoreContextProvider = (props) => {
     setToken,
     userRole,
     setUserRole,
-    userId, // ✅ Included userId
+    userId,
     setUserId,
+    appliedPromo,
+    setAppliedPromo,
+    discountAmount,
+    setDiscountAmount,
+    calculatePromoDiscount,
+    clearPromo,
   };
 
   return (

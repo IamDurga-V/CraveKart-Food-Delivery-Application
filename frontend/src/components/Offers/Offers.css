@@ -1,8 +1,8 @@
 .offers {
-  padding: 40px 20px;
-  text-align: center;
+  padding: 50px 30px;
   margin-top: 50px;
   margin-bottom: 50px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .offers-heading {
@@ -19,38 +19,70 @@
   margin: 4px 0;
 }
 
-.offers-container {
+/* Scroll container */
+.offers-carousel-container {
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+/* Scroll wrapper for offers and banner */
+.offers-scroll-wrapper {
   display: flex;
-  margin-top: 30px;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 150px;
+  overflow-x: auto;
+  gap: 20px;
+  scroll-behavior: smooth;
+  padding: 10px 40px;
+  align-items: center;
 }
 
-.offers-image img {
-  margin-left: 50px;
-  width: 450px;
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.offers-scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.offers-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #a83232;
+  border-radius: 10px;
+  margin-top: 20px;
 }
 
-/* Right side offer cards */
-.offers-list {
+/* Circular banner image */
+.offer-image-circle {
+  min-width: 150px;
+  min-height: 150px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 3px solid #a83232;
   display: flex;
-  flex-direction: column;
-  gap: 50px;
-  max-width: 600px;
-  text-align: left;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff0eb;
+  box-shadow: 0 4px 8px rgba(168, 50, 50, 0.2);
 }
 
+.offer-image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Offer card */
 .offer-card {
-  background-color: #ffffff;
+  flex: 0 0 300px;
+  background-color: #fff;
   border: 1px solid #ffd4c2;
   border-radius: 10px;
-  padding: 20px 60px;
+  padding: 20px;
   box-shadow: 0 4px 8px rgba(217, 79, 48, 0.1);
   position: relative;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-5px);
 }
 
 .offer-badge {
@@ -93,10 +125,52 @@
   margin-top: 10px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .offers-container {
-    flex-direction: column;
-    align-items: center;
+/* Scroll buttons */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 1px solid #a83232;
+  color: #a83232;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+
+.scroll-btn:hover {
+  background-color: #a83232;
+  color: #fff;
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .offer-card {
+    flex: 0 0 260px;
+  }
+
+  .offers-scroll-wrapper {
+    padding: 10px 20px;
+  }
+
+  .offer-image-circle {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+
+  .scroll-btn {
+    display: none; /* Optional: hide buttons on mobile */
   }
 }

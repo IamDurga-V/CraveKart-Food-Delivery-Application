@@ -1,0 +1,83 @@
+.add-offer-container {
+  max-width: 800px; /* Increased from 600px */
+  width: 90%;
+  margin: 50px auto;
+  padding: 50px 60px;
+  background-color: #fff8f5;
+  border: 1px solid #A83232;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(168, 50, 50, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-offer-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #A83232;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.add-offer-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Existing inputs and select */
+.add-offer-form input,
+.add-offer-form select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid #A83232;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  font-size: 15px;
+}
+
+.add-offer-form input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+/* New textarea for description */
+.add-offer-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid #A83232;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  font-size: 15px;
+  resize: vertical;
+}
+
+/* Button styles */
+.add-offer-form button {
+  width: 100%;
+  padding: 14px;
+  background-color: #A83232;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-offer-form button:hover {
+  background-color: #861f1f;
+}
+
+.add-offer-message {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 500;
+  color: green;
+}

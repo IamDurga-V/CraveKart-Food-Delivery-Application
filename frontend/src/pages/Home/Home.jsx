@@ -127,6 +127,22 @@ const Home = () => {
               />
               Manage Orders
             </Link>
+            <Link to="/add-offer" className="action-button">
+              <img
+                src={assets.add_icon}
+                alt="Orders Icon"
+                className="button-icon"
+              />
+              Add Offers
+            </Link>
+            <Link to="/manage-offers" className="action-button">
+              <img
+                src={assets.update_icon}
+                alt="Orders Icon"
+                className="button-icon"
+              />
+              Manage Offers
+            </Link>
           </div>
         </div>
       </div>

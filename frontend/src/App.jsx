@@ -10,6 +10,8 @@ import Orders from "./pages/Orders/Orders";
 import Add from "./pages/Add/Add";
 import Update from "./pages/Update/Update";
 import Home from "./pages/Home/Home";
+import AddOffer from "./pages/AddOffer/AddOffer";
+import ManageOffer from "./pages/ManageOffer/ManageOffer";
 
 // User components
 import UserNavbar from "./components/UserNavbar/UserNavbar";
@@ -39,7 +41,10 @@ const App = () => {
                            location.pathname.startsWith("/add") ||
                            location.pathname.startsWith("/update") ||
                            location.pathname.startsWith("/display") ||
-                           location.pathname.startsWith("/orders");
+                           location.pathname.startsWith("/orders") ||
+                           location.pathname.startsWith("/add-offer") ||
+                           location.pathname.startsWith("/manage-offers");
+
       const isUserRoute = location.pathname === "/" ||
                           location.pathname.startsWith("/cart") ||
                           location.pathname.startsWith("/placeorder") ||
@@ -66,7 +71,9 @@ const App = () => {
                        location.pathname.startsWith("/add") ||
                        location.pathname.startsWith("/update") ||
                        location.pathname.startsWith("/display") ||
-                       location.pathname.startsWith("/orders");
+                       location.pathname.startsWith("/orders") ||
+                       location.pathname.startsWith("/add-offer") ||
+                       location.pathname.startsWith("/manage-offers");
 
   return (
     <>
@@ -86,6 +93,8 @@ const App = () => {
               <Route path="/update" element={<Update url={url} />} />
               <Route path="/display" element={<Display url={url} />} />
               <Route path="/orders" element={<Orders url={url} />} />
+              <Route path="/add-offer" element={<AddOffer url={url} />} />
+              <Route path="/manage-offers" element={<ManageOffer url={url} />} />
             </Routes>
           </div>
         </div>
@@ -109,4 +118,3 @@ const App = () => {
 };
 
 export default App;
-

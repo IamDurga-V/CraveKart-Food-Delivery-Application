@@ -7,6 +7,7 @@ import "dotenv/config";
 import cartRouter from "./routes/cartRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
+import offerRouter from "./routes/offerRoutes.js";
 
 //App Configuration
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/user", userRouter);
 app.use("/api/cart",cartRouter);
 app.use("/api/order",orderRouter);
 app.use("/api/admin",adminRouter);
+app.use("/api/offer",offerRouter);
 
 
 app.get("/", (req, res) => {
