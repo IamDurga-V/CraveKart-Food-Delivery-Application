@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useContext } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { StoreContext } from "./context/StoreContext";
@@ -29,57 +30,89 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const { userRole, setUserRole, token, url } = useContext(StoreContext);
+  // --- NEW: Destructure `loading` from context ---
+  const { userRole, setUserRole, token, url, loading } = useContext(StoreContext);
   const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("App useEffect - userRole:", userRole, "token:", !!token, "path:", location.pathname);
-    if (token) {
-      const isAdminRoute = location.pathname.startsWith("/admin") ||
-                           location.pathname.startsWith("/add") ||
-                           location.pathname.startsWith("/update") ||
-                           location.pathname.startsWith("/display") ||
-                           location.pathname.startsWith("/orders") ||
-                           location.pathname.startsWith("/add-offer") ||
-                           location.pathname.startsWith("/manage-offers");
+    console.log("App useEffect - userRole:", userRole, "token:", !!token, "path:", location.pathname, "loading:", loading);
 
-      const isUserRoute = location.pathname === "/" ||
-                          location.pathname.startsWith("/cart") ||
-                          location.pathname.startsWith("/placeorder") ||
-                          location.pathname.startsWith("/verify") ||
-                          location.pathname.startsWith("/myorders");
+    // --- NEW: Only run redirection logic AFTER loading is false ---
+    if (!loading) {
+      if (token) {
+        const isAdminRoute =
+          location.pathname.startsWith("/admin") ||
+          location.pathname.startsWith("/add") ||
+          location.pathname.startsWith("/update") ||
+          location.pathname.startsWith("/display") ||
+          location.pathname.startsWith("/orders") ||
+          location.pathname.startsWith("/add-offer") ||
+          location.pathname.startsWith("/manage-offers");
 
-      if (userRole === "Admin" && !isAdminRoute) {
-        console.log("Redirecting Admin to /admin");
-        navigate("/admin");
-      } else if (userRole === "User" && isAdminRoute) {
-        console.log("Redirecting User to /");
-        navigate("/");
-      }
-    } else {
-      if (location.pathname !== "/") {
-        console.log("No token, showing login and redirecting to /");
-        setShowLogin(true);
-        navigate("/");
+        // Consider adding a root admin path check
+        const isRootAdminPath = location.pathname === "/admin";
+
+        // Admin logic
+        if (userRole === "Admin") {
+          // If admin is on a user route, redirect to admin home
+          if (!isAdminRoute && !isRootAdminPath) { // Check if it's not an admin route or the root admin path
+            console.log("Redirecting Admin to /admin");
+            navigate("/admin");
+          }
+          // If admin is on admin route, stay there
+        }
+        // User logic
+        else if (userRole === "User") {
+          // If user is on an admin route, redirect to user home
+          if (isAdminRoute || isRootAdminPath) { // Check if it's an admin route or the root admin path
+            console.log("Redirecting User to /");
+            navigate("/");
+          }
+          // If user is on user route, stay there
+        }
+      } else {
+        // No token, user is not logged in
+        // If current path is NOT the home page, show login and redirect to home
+        if (location.pathname !== "/") {
+          console.log("No token, showing login and redirecting to /");
+          setShowLogin(true);
+          navigate("/");
+        } else {
+            // If on home page and no token, just ensure login popup can be shown if needed
+            setShowLogin(false); // Ensure it's not shown automatically on `/`
+        }
       }
     }
-  }, [token, userRole, location.pathname, navigate, setShowLogin]);
+    // Dependency array: token, userRole, location.pathname, navigate, setShowLogin, loading
+    // Make sure all relevant states are in the dependency array
+  }, [token, userRole, location.pathname, navigate, setShowLogin, loading]); // <<< Added `loading` here
 
-  const isAdminRoute = location.pathname.startsWith("/admin") ||
-                       location.pathname.startsWith("/add") ||
-                       location.pathname.startsWith("/update") ||
-                       location.pathname.startsWith("/display") ||
-                       location.pathname.startsWith("/orders") ||
-                       location.pathname.startsWith("/add-offer") ||
-                       location.pathname.startsWith("/manage-offers");
+  const isAdminRoute =
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/add") ||
+    location.pathname.startsWith("/update") ||
+    location.pathname.startsWith("/display") ||
+    location.pathname.startsWith("/orders") ||
+    location.pathname.startsWith("/add-offer") ||
+    location.pathname.startsWith("/manage-offers");
+
+  // --- NEW: Render a loading indicator or null while authentication is being checked ---
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '24px' }}>
+        Loading Application...
+      </div>
+    );
+  }
 
   return (
     <>
       <ToastContainer />
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
 
+      {/* Conditional rendering for Admin vs. User Layout */}
       {isAdminRoute && userRole === "Admin" ? (
         // Admin Layout
         <div>
@@ -88,6 +121,7 @@ const App = () => {
           <div className="app-content">
             <Sidebar />
             <Routes>
+              {/* Only allow /admin path if userRole is Admin */}
               <Route path="/admin" element={<Home url={url} />} />
               <Route path="/add" element={<Add url={url} />} />
               <Route path="/update" element={<Update url={url} />} />
@@ -95,11 +129,13 @@ const App = () => {
               <Route path="/orders" element={<Orders url={url} />} />
               <Route path="/add-offer" element={<AddOffer url={url} />} />
               <Route path="/manage-offers" element={<ManageOffer url={url} />} />
+              {/* Fallback for admin if they try to access non-existent admin sub-route */}
+              <Route path="*" element={<Home url={url} />} /> {/* Redirect to admin home */}
             </Routes>
           </div>
         </div>
       ) : (
-        // User Layout
+        // User Layout (or Unauthenticated Layout)
         <div className="app">
           <UserNavbar setShowLogin={setShowLogin} />
           <Routes>
@@ -108,6 +144,13 @@ const App = () => {
             <Route path="/placeorder" element={<PlaceOrder url={url} />} />
             <Route path="/verify" element={<Verify url={url} />} />
             <Route path="/myorders" element={<MyOrder url={url} />} />
+            {/* Fallback for user if they try to access non-existent user sub-route 
+                or if admin tries to access a user route and gets redirected */}
+            <Route path="*" element={<UserHome url={url} />} /> {/* Redirect to user home */}
+
+            {/* If user is not authenticated and tries to access a protected route, 
+                they will be redirected to "/" by the useEffect above. 
+                The LoginPopup will then appear only if setShowLogin(true) is called. */}
           </Routes>
           <AppDownload />
           <Footer />

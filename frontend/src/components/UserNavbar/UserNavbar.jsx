@@ -3,25 +3,33 @@ import "./UserNavbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
-import SearchModal from "../SearchModal/SearchModal"; // ⬅️ Import added
+import SearchModal from "../SearchModal/SearchModal"; // Make sure this import is correct
 
 const UserNavbar = ({ setShowLogin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menu, setMenu] = useState("menu");
-  const [showSearch, setShowSearch] = useState(false); // ⬅️ State for modal
+  const [showSearch, setShowSearch] = useState(false); // State for modal
   const {
     getTotalCartAmount,
     token,
     setToken,
-    setUserRole
+    setUserRole,
+    setUserId // <<< Added setUserId here
   } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const logout = () => {
+    // Clear localStorage items
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    setToken(null);
-    setUserRole(null);
+    localStorage.removeItem("userId"); // <<< Clear userId from localStorage
+
+    // Clear context states
+    setToken("");       // Set token to empty string
+    setUserRole("User"); // Explicitly set role to "User"
+    setUserId("");      // Clear userId
+
+    // Redirect to home page
     navigate("/");
   };
 
@@ -82,7 +90,7 @@ const UserNavbar = ({ setShowLogin }) => {
           src={assets.search_icon}
           alt="Search"
           className="search-trigger"
-          onClick={() => setShowSearch(true)} // ⬅️ Show modal on click
+          onClick={() => setShowSearch(true)}
         />
 
         <div className="navbar-search-icon">
@@ -113,7 +121,7 @@ const UserNavbar = ({ setShowLogin }) => {
       </div>
 
       {showSearch && (
-        <SearchModal onClose={() => setShowSearch(false)} /> // ⬅️ Modal added
+        <SearchModal onClose={() => setShowSearch(false)} />
       )}
     </div>
   );

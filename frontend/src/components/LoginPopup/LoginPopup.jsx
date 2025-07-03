@@ -3,9 +3,11 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode
 
 const LoginPopup = ({ setShowLogin }) => {
-  const { url, setToken } = useContext(StoreContext);
+  const { url, setToken, setUserRole, setUserId } = useContext(StoreContext); // Destructure setUserId
+
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
     name: "",
@@ -21,25 +23,60 @@ const LoginPopup = ({ setShowLogin }) => {
   };
 
   const onLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission behavior
+
     let newUrl = url;
     if (currState === "Login") {
       newUrl += "/api/user/login";
     } else {
       newUrl += "/api/user/register";
     }
+
     try {
       const response = await axios.post(newUrl, data);
+
       if (response.data.success) {
-        setToken(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        setShowLogin(false);
+        const receivedToken = response.data.token;
+        setToken(receivedToken); // Update token state in context
+
+        // Store token in localStorage
+        localStorage.setItem("token", receivedToken);
+
+        // --- Crucial Fix: Decode token and set userRole/userId immediately ---
+        try {
+          const decoded = jwtDecode(receivedToken);
+          const role = decoded.role || "User"; // Get role from decoded token, default to 'User'
+          const id = decoded.id || decoded.userId || decoded._id; // Get ID from decoded token
+
+          setUserRole(role); // Update userRole state in context
+          setUserId(id);     // Update userId state in context
+
+          // Store role and userId in localStorage for persistence across refreshes
+          localStorage.setItem("role", role);
+          localStorage.setItem("userId", id);
+
+          console.log("LoginPopup: Successfully set userRole:", role, "userId:", id);
+
+        } catch (decodeError) {
+          console.error("LoginPopup: Token decoding error after successful auth:", decodeError);
+          // If token decoding fails (e.g., malformed token), treat as unauthenticated
+          setToken("");
+          setUserRole("User");
+          setUserId("");
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          localStorage.removeItem("userId");
+          alert("Authentication successful but token could not be processed. Please try again.");
+        }
+        // --- End Crucial Fix ---
+
+        setShowLogin(false); // Close the login popup
       } else {
-        alert(response.data.message);
+        alert(response.data.message); // Show error message from backend
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
-      console.error("Error:", error);
+      alert("An error occurred during authentication. Please try again.");
+      console.error("Authentication Error:", error);
     }
   };
 

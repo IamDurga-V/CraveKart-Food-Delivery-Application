@@ -8,6 +8,7 @@
 
 .home-container {
   margin-left: 200px;
+  margin-right: 200px;
   width: calc(100% - 200px);
   padding: 30px;
   background: #ffffff;
