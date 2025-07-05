@@ -357,7 +357,7 @@
     "image": "1751520435868food_36.jpg",
     "price": 60,
     "description": "Thick dosa topped with onions and chilies",
-    "category": "Snacks"
+    "category": "Tiffin"
   },
   {
     "_id": {
@@ -367,7 +367,7 @@
     "image": "1751520421782food_37.jpg",
     "price": 65,
     "description": "Dosa topped with mixed veggies",
-    "category": "Snacks"
+    "category": "Tiffin"
   },
   {
     "_id": {
@@ -377,7 +377,7 @@
     "image": "1751520406649food_38.jpg",
     "price": 60,
     "description": "Crispy dosa made with semolina",
-    "category": "Snacks"
+    "category": "Tiffin"
   },
   {
     "_id": {
@@ -387,7 +387,7 @@
     "image": "1751520395831food_39.jpg",
     "price": 70,
     "description": "Mixed lentil pancake served with veg curry",
-    "category": "Snacks"
+    "category": "Tiffin"
   },
   {
     "_id": {
@@ -397,7 +397,7 @@
     "image": "1751520383885food_40.jpg",
     "price": 75,
     "description": "Crisp dosa roasted in ghee",
-    "category": "Snacks"
+    "category": "Tiffin"
   },
   {
     "_id": {

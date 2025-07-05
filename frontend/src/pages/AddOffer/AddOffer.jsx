@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddOffer = () => {
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [formData, setFormData] = useState({
     code: "",
     description: "",
@@ -25,8 +26,8 @@ const AddOffer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/offer/add", formData);
-      toast.success("Offer added successfully!", {
+        await axios.post(`${baseURL}/api/offer/add`, formData);
+        toast.success("Offer added successfully!", {
         position: "top-right",
         autoClose: 2000,
       });

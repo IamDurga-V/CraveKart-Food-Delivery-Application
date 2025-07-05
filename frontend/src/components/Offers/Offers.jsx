@@ -5,10 +5,11 @@ import { assets } from "../../assets/assets";
 
 const Offers = () => {
   const [offersData, setOffersData] = useState([]);
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const scrollRef = useRef(null);
   const fetchOffers = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/offer/all");
+      const res = await axios.get(`${baseURL}/api/offer/all`);
       setOffersData(res.data);
     } catch (err) {
       console.error("Error fetching offers:", err);

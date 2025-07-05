@@ -11,7 +11,7 @@ import offerRouter from "./routes/offerRoutes.js";
 
 //App Configuration
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 //MiddleWare
 app.use(express.json());

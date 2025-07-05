@@ -5,12 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ManageOffer = () => {
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchOffers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:4000/api/offer/all");
+      const res = await axios.get(`${baseURL}/api/offer/all`);
       setOffers(res.data || []);
     } catch (err) {
       toast.error("Error fetching offers", { position: "top-right" });
@@ -20,7 +21,7 @@ const ManageOffer = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this offer?")) return;
     try {
-      await axios.delete(`http://localhost:4000/api/offer/${id}`);
+      await axios.delete(`${baseURL}/api/offer/${id}`);
       toast.success("Offer deleted successfully", { position: "top-right" });
       fetchOffers();
     } catch (err) {

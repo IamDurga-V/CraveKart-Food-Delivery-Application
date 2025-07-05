@@ -19,7 +19,7 @@ const StoreContextProvider = (props) => {
     const discount = localStorage.getItem("discountAmount");
     return discount ? parseInt(discount, 10) : 0;
   });
-  const url = "http://localhost:4000";
+  const url = import.meta.env.VITE_BASE_URL;
   const authHeader = React.useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);

@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
 export const connectDB = async () => {
-  await mongoose
-    .connect(
-      "mongodb+srv://DurgaV:Durga482004@cluster0.afxxv97.mongodb.net/CraveKart",
-    )
-    .then(() => console.log("MongoDB DataBase Connected"));
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB Database Connected");
+  } catch (error) {
+    console.error("MongoDB Connection Failed:", error.message);
+    process.exit(1);
+  }
 };

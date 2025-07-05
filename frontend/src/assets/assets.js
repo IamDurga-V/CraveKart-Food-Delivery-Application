@@ -76,7 +76,7 @@ import chettinad from "./chettinad.jpg";
 import karnataka from "./karnataka.jpg";
 import kerala from "./kerala.jpg";
 import meals from "./meals.jpg";
-import snacks from "./snacks.jpg";
+import tiffin from "./tiffin.jpg";
 import sweets from "./sweets.jpg";
 import tamilnadu from "./tamilnadu.jpg";
 export const assets = {
@@ -120,7 +120,7 @@ export const menu_list = [
   { menu_name: "Karnataka", menu_image: karnataka },
   { menu_name: "Chettinad", menu_image: chettinad },
   { menu_name: "Meals", menu_image: meals },
-  { menu_name: "Snacks", menu_image: snacks },
+  { menu_name: "Tiffin", menu_image: tiffin },
   { menu_name: "Sweets", menu_image: sweets },
   { menu_name: "Beverages", menu_image: beverages },
   { menu_name: "Salad", menu_image: menu_1 },
