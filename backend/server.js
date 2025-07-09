@@ -15,7 +15,9 @@ const port = process.env.PORT || 4000;
 
 //MiddleWare
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "*", // Allow all origins
+}));
 
 //DB Connection
 connectDB();
