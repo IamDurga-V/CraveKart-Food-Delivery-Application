@@ -211,3 +211,11 @@
     padding: 10px;
   }
 }
+.resend-otp-button {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
